@@ -1,6 +1,8 @@
-﻿namespace CourseProject
+﻿using System.Windows.Forms;
+
+namespace CourseProject
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -35,6 +37,9 @@
             this.tableControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.deleteSelected = new System.Windows.Forms.Button();
+            this.contextPanel = new System.Windows.Forms.Panel();
+            this.addEntry = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).BeginInit();
             this.tableControl.SuspendLayout();
             this.SuspendLayout();
@@ -49,6 +54,7 @@
             this.MainGrid.RowTemplate.Height = 25;
             this.MainGrid.Size = new System.Drawing.Size(546, 189);
             this.MainGrid.TabIndex = 0;
+            this.MainGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellClick);
             this.MainGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.MainGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellEndEdit);
             // 
@@ -69,7 +75,7 @@
             // 
             // updateButton
             // 
-            this.updateButton.Location = new System.Drawing.Point(564, 74);
+            this.updateButton.Location = new System.Drawing.Point(564, 237);
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(224, 23);
             this.updateButton.TabIndex = 4;
@@ -102,27 +108,64 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(538, 57);
+            this.tabPage2.Size = new System.Drawing.Size(538, 2);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // deleteSelected
+            // 
+            this.deleteSelected.Location = new System.Drawing.Point(564, 297);
+            this.deleteSelected.Name = "deleteSelected";
+            this.deleteSelected.Size = new System.Drawing.Size(224, 23);
+            this.deleteSelected.TabIndex = 6;
+            this.deleteSelected.Text = "Удалить запись";
+            this.deleteSelected.UseVisualStyleBackColor = true;
+            this.deleteSelected.Click += new System.EventHandler(this.deleteSelected_Click);
+            // 
+            // contextPanel
+            // 
+            this.contextPanel.Location = new System.Drawing.Point(12, 237);
+            this.contextPanel.Name = "contextPanel";
+            this.contextPanel.Size = new System.Drawing.Size(546, 201);
+            this.contextPanel.TabIndex = 7;
+            // 
+            // addEntry
+            // 
+            this.addEntry.Location = new System.Drawing.Point(564, 266);
+            this.addEntry.Name = "addEntry";
+            this.addEntry.Size = new System.Drawing.Size(224, 25);
+            this.addEntry.TabIndex = 8;
+            this.addEntry.Text = "Добавить запись";
+            this.addEntry.UseVisualStyleBackColor = true;
+            this.addEntry.Click += new System.EventHandler(this.addEntry_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.addEntry);
+            this.Controls.Add(this.contextPanel);
+            this.Controls.Add(this.deleteSelected);
             this.Controls.Add(this.tableControl);
             this.Controls.Add(this.updateButton);
             this.Controls.Add(this.commitChanges);
             this.Controls.Add(this.MainGrid);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "Контроль Выполнения Нагрузки Преподатавателей: Главная";
+            this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed_1);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).EndInit();
             this.tableControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
+        }
+
+        private void MainForm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
 
         #endregion
@@ -134,5 +177,8 @@
         private System.Windows.Forms.TabControl tableControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button deleteSelected;
+        private Panel contextPanel;
+        private Button addEntry;
     }
 }

@@ -5,14 +5,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 
 namespace CourseProject.Core
 {
     public abstract class Model
     {
+        internal int id;
+
         public bool WasUpdated { get; set; } = false;
 
         public bool IsNew { get; set; } = false;
+
+        public bool ToBeRemoved { get; set; } = false;
 
         public static Model UpdateModel(Type type, params object[] values)
         {
@@ -31,15 +36,36 @@ namespace CourseProject.Core
             }
 
             ConstructorInfo ctor = type.GetConstructor(types.ToArray());
-            
-            for(int i = 0; i < values.Length; i++)
+
+            int id = -1;
+            try
             {
-                values[i] = Convert.ChangeType(values[i], types[i]);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    if (values[i] != null)
+                        values[i] = Convert.ChangeType(values[i], types[i]);
+                    else
+                        values[i] = Default(types[i]);
+
+                    if (i == 0)
+                        id = (int)values[i];
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Введён неверный формат данных");
+
+                model = (Model)ctor.Invoke(new object[values.Length]);
+                model.ToBeRemoved = true;
+                return model;
             }
 
             model = (Model)ctor.Invoke(values);
 
             model.WasUpdated = true;
+
+            if (id != -1)
+                model.id = id;
             return model;
         }
 
@@ -61,15 +87,46 @@ namespace CourseProject.Core
 
             ConstructorInfo ctor = type.GetConstructor(types.ToArray());
 
-            for (int i = 0; i < values.Length; i++)
+            int id = -1;
+
+            try
             {
-                values[i] = Convert.ChangeType(values[i], types[i]);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    if (values[i] != null)
+                        values[i] = Convert.ChangeType(values[i], types[i]);
+                    else
+                        values[i] = Default(types[i]);
+
+                    if (i == 0)
+                        id = (int)values[i];
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Введён неверный формат данных");
+
+                model = (Model)ctor.Invoke(new object[values.Length]);
+                model.ToBeRemoved = true;
+                return model;
             }
 
             model = (Model)ctor.Invoke(values);
             model.IsNew = true;
 
+            if (id != -1)
+                model.id = id;
+
             return model;
+        }
+
+        public static object Default(Type type)
+        {
+            if (type.IsValueType)
+            {
+                return Activator.CreateInstance(type);
+            }
+            return null;
         }
     }
 }

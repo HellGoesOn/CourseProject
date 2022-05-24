@@ -65,11 +65,28 @@ namespace CourseProject.Core
             return new Result<T>(dataToRemove, false);
         }
 
+        public Result<T> RemoveAt(int index)
+        {
+            if(data.Count >= index)
+            {
+                var r = new Result<T>(data[index]);
+                data.RemoveAt(index);
+                return r;
+            }
+
+            return new Result<T>(null, false, -1);
+        }
+
         public Result<T> Insert(T dataToInsert, int index)
         {
             data.Insert(index, dataToInsert);
 
             return new Result<T>(dataToInsert, true, data.IndexOf(dataToInsert));
+        }
+
+        public T Find(Predicate<T> p)
+        {
+            return data.Find(p);
         }
 
         public Result<T> Get(int index)
@@ -168,6 +185,12 @@ namespace CourseProject.Core
 
                     query.AppendLine(@");");
                 }
+                else if(item.ToBeRemoved)
+                {
+                    int id = (int)infos[0].GetValue(item);
+
+                    query = new StringBuilder($"delete from {tableName} where {infos[0].Name} = {id}");
+                }
 
                 if (!string.IsNullOrEmpty(query.ToString()))
                 {
@@ -180,7 +203,7 @@ namespace CourseProject.Core
                     {
                         ErrorForm err = new ErrorForm();
                         err.SetText(ex.Message);
-                        err.ShowDialog(Form1.instance);
+                        err.ShowDialog(MainForm.instance);
                     }
                 }
             }
