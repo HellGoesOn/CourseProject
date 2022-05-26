@@ -3,6 +3,7 @@ using CourseProject.Core.Attributes;
 
 namespace CourseProject.Content.Models
 {
+    [Name("Преподаватели")]
     public class Teacher : Model
     {
         [Name("ID Преподавателя")]

@@ -46,11 +46,15 @@ namespace CourseProject
             // 
             // MainGrid
             // 
+            this.MainGrid.AllowUserToAddRows = false;
+            this.MainGrid.AllowUserToDeleteRows = false;
             this.MainGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MainGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
             this.MainGrid.Location = new System.Drawing.Point(12, 42);
+            this.MainGrid.MultiSelect = false;
             this.MainGrid.Name = "MainGrid";
+            this.MainGrid.ReadOnly = true;
             this.MainGrid.RowTemplate.Height = 25;
             this.MainGrid.Size = new System.Drawing.Size(546, 189);
             this.MainGrid.TabIndex = 0;
@@ -62,10 +66,11 @@ namespace CourseProject
             // 
             this.Column1.HeaderText = "Column1";
             this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
             // commitChanges
             // 
-            this.commitChanges.Location = new System.Drawing.Point(564, 38);
+            this.commitChanges.Location = new System.Drawing.Point(564, 282);
             this.commitChanges.Name = "commitChanges";
             this.commitChanges.Size = new System.Drawing.Size(224, 30);
             this.commitChanges.TabIndex = 3;
@@ -75,7 +80,7 @@ namespace CourseProject
             // 
             // updateButton
             // 
-            this.updateButton.Location = new System.Drawing.Point(564, 237);
+            this.updateButton.Location = new System.Drawing.Point(564, 318);
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(224, 23);
             this.updateButton.TabIndex = 4;
@@ -115,7 +120,7 @@ namespace CourseProject
             // 
             // deleteSelected
             // 
-            this.deleteSelected.Location = new System.Drawing.Point(564, 297);
+            this.deleteSelected.Location = new System.Drawing.Point(564, 378);
             this.deleteSelected.Name = "deleteSelected";
             this.deleteSelected.Size = new System.Drawing.Size(224, 23);
             this.deleteSelected.TabIndex = 6;
@@ -132,7 +137,7 @@ namespace CourseProject
             // 
             // addEntry
             // 
-            this.addEntry.Location = new System.Drawing.Point(564, 266);
+            this.addEntry.Location = new System.Drawing.Point(564, 347);
             this.addEntry.Name = "addEntry";
             this.addEntry.Size = new System.Drawing.Size(224, 25);
             this.addEntry.TabIndex = 8;
@@ -144,7 +149,7 @@ namespace CourseProject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(793, 450);
             this.Controls.Add(this.addEntry);
             this.Controls.Add(this.contextPanel);
             this.Controls.Add(this.deleteSelected);

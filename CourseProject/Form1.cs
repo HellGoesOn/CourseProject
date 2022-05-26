@@ -83,6 +83,7 @@ namespace CourseProject
             PullDatas();
 
             ShowDataFor(Teacher);
+            lastKnownType = typeof(Teacher);
         }
 
         private void PullDatas()
@@ -105,7 +106,14 @@ namespace CourseProject
 
             foreach (var kvp in Storages)
             {
-                tableControl.TabPages.Add(kvp.Value.expectedType.Name);
+                NameAttribute attr = kvp.Value.expectedType.GetCustomAttribute<NameAttribute>();
+
+                if (attr != null)
+                {
+                    TabPage pg = new TabPage(attr.Name);
+                    pg.Name = kvp.Key.Name;
+                    tableControl.TabPages.Add(pg);
+                }
             }
 
             tableControl.Selected += TableControl_Selected;
@@ -117,7 +125,7 @@ namespace CourseProject
             TabControl control = (TabControl)sender;
 
             int index = control.SelectedIndex;
-            string name = control.TabPages[index].Text;
+            string name = control.TabPages[index].Name;
 
             Type t = Assembly.GetAssembly(typeof(Model)).GetTypes().Where(x => x.Name == name).First();
 
@@ -128,41 +136,6 @@ namespace CourseProject
         {
         }
 
-        private void ShowDataFor<T>(DataStorage<T> storage)
-            where T : Model
-        {
-            MainGrid.Columns.Clear();
-            MainGrid.ClearSelection();
-
-            PropertyInfo[] infos = storage.expectedType.GetProperties();
-            List<T> omegaLUL = (List<T>)storage.GetAll().Where(x => !x.ToBeRemoved).ToList();
-
-            int columnId = 0;
-
-            foreach (PropertyInfo f in infos)
-            {
-                NameAttribute attr = (NameAttribute)f.GetCustomAttribute(typeof(NameAttribute));
-
-                if (attr == null)
-                    continue;
-
-                MainGrid.Columns.Add(attr.Name.ToLower(), attr.Name);
-
-                for (int i = 0; i < omegaLUL.Count; i++)
-                {
-                    if (MainGrid.RowCount < omegaLUL.Count + 1)
-                        MainGrid.RowCount++;
-
-                    var value = f.GetValue(omegaLUL[i]);
-
-                    MainGrid[columnId, i].Value = value == null ? "Bruh" : value;
-                }
-
-                columnId++;
-            }
-
-            CurrentStorage = storage.expectedType;
-        }
 
         private void PullDataFor<T>(DataStorage<T> storage)
             where T : Model
@@ -233,43 +206,6 @@ namespace CourseProject
         {
         }
 
-        private void updateButton_Click(object sender, EventArgs e)
-        {
-            var st = Storages[CurrentStorage];
-
-            if(CurrentModel == null)
-            {
-                MessageBox.Show("Не выбранны данные для изменения");
-                return;
-            }
-            try
-            {
-                object[] parameters = new object[CurrentModel.GetType().GetProperties().Where(x => x.GetCustomAttribute<NameAttribute>() != null).ToList().Count];
-
-                int fuck = parameters.Length - 1;
-
-                for (int i = contextPanel.Controls.Count - 1; i >= 0; i--)
-                {
-                    if (!(contextPanel.Controls[i] is TextBox))
-                        break;
-
-                    parameters[fuck] = (object)contextPanel.Controls[i].Text;
-                    fuck--;
-                }
-
-                int id = parameters[0] == null ? -1 : (int)Convert.ChangeType(parameters[0], typeof(int));
-
-                if (st.Find(x => x.id == CurrentModel.id && !x.ToBeRemoved) != null)
-                    st.Replace(currentId, Model.UpdateModel(CurrentStorage, parameters));
-
-                RefreshDisplay();
-            }
-            catch
-            {
-
-            }
-        }
-
         private void RefreshDisplay()
         {
             MainGrid.Columns.Clear();
@@ -335,67 +271,6 @@ namespace CourseProject
 
         }
 
-        private void MakeContextPanel()
-        {
-            PropertyInfo[] fields = Storages[CurrentStorage].expectedType.GetProperties();
-            KillContextPanel();
-
-            int topOffset = 0;
-            int longest = 0;
-
-            foreach (var field in fields)
-            {
-                var attr = field.GetCustomAttribute<NameAttribute>();
-                if (attr == null)
-                    continue;
-
-                var txt = new Label();
-                txt.Text = attr.Name;
-                var measured = TextRenderer.MeasureText(txt.Text, txt.Font).Width;
-                txt.Width = measured;
-                txt.Top = topOffset;
-                contextPanel.Controls.Add(txt);
-
-                topOffset += txt.Height + 2;
-                if (measured > longest)
-                    longest = measured;
-            }
-
-            topOffset = 0;
-
-            int foo = 0;
-
-            foreach (var field in fields)
-            {
-                if (field.GetCustomAttribute<NameAttribute>() == null)
-                    continue;
-
-                var txt = new TextBox();
-                txt.Width = 380;
-                txt.Name = "txt" + foo;
-                if (CurrentModel != null)
-                    txt.Text = field.GetValue(CurrentModel).ToString();
-
-                txt.Left = longest;
-                txt.Top = topOffset;
-                contextPanel.Controls.Add(txt);
-
-                topOffset += txt.Height + 2;
-            }
-
-            lastKnownType = CurrentStorage;
-        }
-
-        private void KillContextPanel()
-        {
-            foreach (Control v in contextPanel.Controls)
-            {
-                v.Dispose();
-            }
-
-            contextPanel.Controls.Clear();
-        }
-
         private void addEntry_Click(object sender, EventArgs e)
         {
             if (contextPanel.Controls.Count <= 0)
@@ -411,21 +286,7 @@ namespace CourseProject
             }
             else
             {
-                object[] parameters = new object[lastKnownType.GetProperties().Where(x => x.GetCustomAttribute<NameAttribute>() != null).ToList().Count];
-
-                int fuck = parameters.Length - 1;
-
-                for (int i = contextPanel.Controls.Count - 1; i >= 0; i--)
-                {
-                    if (!(contextPanel.Controls[i] is TextBox))
-                        break;
-
-                    parameters[fuck] = (object)contextPanel.Controls[i].Text;
-                    fuck--;
-                }
-
-
-                Storages[lastKnownType].Add(Model.CreateNewModel(lastKnownType, parameters));
+                Storages[lastKnownType].Add(GetModel(ModelStyle.New));
                 RefreshDisplay();
             }
         }

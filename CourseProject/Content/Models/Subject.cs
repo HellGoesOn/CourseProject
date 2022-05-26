@@ -3,6 +3,7 @@ using CourseProject.Core.Attributes;
 
 namespace CourseProject.Content.Models
 {
+    [Name("Предметы")]
     public class Subject : Model
     {
         [Name("ID предмета")]

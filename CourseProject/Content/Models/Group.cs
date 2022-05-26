@@ -6,6 +6,7 @@ using System.Text;
 
 namespace CourseProject.Content.Models
 {
+    [Name("Группы")]
     [NotKeyword]
     public class Group : Model
     {

@@ -2,7 +2,7 @@
 
 namespace CourseProject.Core.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class)]
     public class NameAttribute : Attribute
     {
         public readonly string Name;
