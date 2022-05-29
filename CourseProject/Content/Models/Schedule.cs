@@ -10,7 +10,8 @@ namespace CourseProject.Content.Models
         [Name("ID пары")]
         public int Id { get; set; }
 
-        [Name("ID связи Препод.-предмет")]
+        [Name("Препод.-предмет")]
+        [Source(typeof(TeacherSubject), "Id")]
         public  int IDTeacherSubject { get; set; }
 
         [Name("День проведения пары")]

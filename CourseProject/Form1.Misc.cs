@@ -12,7 +12,7 @@ namespace CourseProject
     {
         private void MakeContextPanel()
         {
-            PropertyInfo[] fields = Storages[CurrentStorage].expectedType.GetProperties();
+            PropertyInfo[] fields = Infos[CurrentStorage];
             KillContextPanel();
 
             int topOffset = 0;
@@ -42,12 +42,16 @@ namespace CourseProject
 
             foreach (var field in fields)
             {
-                SourceAttribute attr = field.GetCustomAttribute<SourceAttribute>();
+                List<SourceAttribute> attr = field.GetCustomAttributes<SourceAttribute>().ToList();
+
+                if (attr.Count <= 0)
+                    attr = null;
+
                 if (field.GetCustomAttribute<NameAttribute>() == null)
                     continue;
 
                 // textBox if we do not expect an outside source
-                if (attr == null)
+                if (attr == null && field.PropertyType != typeof(DateTime))
                 {
                     var txt = new TextBox();
                     txt.Width = 380;
@@ -61,30 +65,44 @@ namespace CourseProject
 
                     topOffset += txt.Height + 2;
                 }
+                else if(field.PropertyType == typeof(DateTime))
+                {
+                    var txt = new DateTimePicker();
+                    txt.Top = topOffset;
+                    txt.Left = longest;
+
+                    if (CurrentModel != null)
+                    {
+                        DateTime s = (DateTime)field.GetValue(CurrentModel);
+                        txt.Value = s;
+                    }
+                    txt.Format = DateTimePickerFormat.Custom;
+                    txt.CustomFormat = "День: dd/MM/yy Время: hh:mm";
+                    txt.Width = 380;
+
+                    contextPanel.Controls.Add(txt);
+                    topOffset += txt.Height + 2;
+                }
                 else
                 {
                     var txt = new ComboBox();
                     txt.Top = topOffset;
                     txt.Left = longest;
-                    var inf = attr.SourceType.GetProperties().Where(x => x.Name == attr.FieldName).ToList().First();
+
+                    var pinf = attr[0].SourceType.GetProperties().Where(x => x.Name == attr[0].FieldName).ToList().First();
+
+                    foreach (var b in Storages[attr[0].SourceType].GetAll())
+                    {
+                        txt.Items.Add(new ComboBoxItem(SourceAttribute.GetFullSauce(field, b), b.id));
+                    }
 
                     if (CurrentModel != null)
                     {
-                        var bruv = Storages[attr.SourceType].Find(x => x.id == (int)field.GetValue(CurrentModel));
-
-                        if (bruv != null)
-                        {
-                            string s = inf.GetValue(bruv).ToString();
-                            txt.Text = s;
-                        }
+                        var bruv = Storages[attr[0].SourceType].Find(x => x.id == (int)field.GetValue(CurrentModel));
+                        txt.SelectedItem = txt.Items.Cast<ComboBoxItem>().FirstOrDefault(x => (int)x.Value == bruv.id);
                     }
 
-                    foreach (var b in Storages[attr.SourceType].GetAll())
-                    {
-                        txt.Items.Add(new ComboBoxItem(inf.GetValue(b).ToString(), b.id));
-                    }
-                    
-                    txt.SelectedItem = txt.Items.Cast<ComboBoxItem>().FirstOrDefault(x => x.ItemName == txt.Text);
+
 
                     txt.Width = 380;
 
@@ -131,7 +149,8 @@ namespace CourseProject
             {
                 var isTextBox = contextPanel.Controls[i] is TextBox;
                 var isComboBox = contextPanel.Controls[i] is ComboBox;
-                if (!isTextBox && !isComboBox)
+                var isDateTimePicker = contextPanel.Controls[i] is DateTimePicker;
+                if (!isTextBox && !isComboBox && !isDateTimePicker)
                     break;
 
                 if (isTextBox)
@@ -143,6 +162,12 @@ namespace CourseProject
                     ComboBoxItem item = box.SelectedItem as ComboBoxItem;
                     object value = item.Value;
                     parameters[fuck] = value;
+                }
+
+                if(isDateTimePicker)
+                {
+                    DateTimePicker box = contextPanel.Controls[i] as DateTimePicker;
+                    parameters[fuck] = box.Value;
                 }
 
                 fuck--;
@@ -181,11 +206,14 @@ namespace CourseProject
             foreach (PropertyInfo f in infos)
             {
                 NameAttribute attr = (NameAttribute)f.GetCustomAttribute(typeof(NameAttribute));
+                SourceAttribute src = f.GetCustomAttribute<SourceAttribute>();
 
                 if (attr == null)
                     continue;
 
                 MainGrid.Columns.Add(attr.Name.ToLower(), attr.Name);
+                if (columnId == 0)
+                    MainGrid.Columns[columnId].Visible = false;
 
                 for (int i = 0; i < omegaLUL.Count; i++)
                 {
@@ -194,7 +222,19 @@ namespace CourseProject
 
                     var value = f.GetValue(omegaLUL[i]);
 
-                    MainGrid[columnId, i].Value = value == null ? "Bruh" : value;
+                    if (src == null)
+                        MainGrid[columnId, i].Value = value == null ? "Bruh" : value;
+                    else if (value != null)
+                    {
+                        var bull = Storages[src.SourceType].Find(x => x.id == (int)value);
+
+                        if (bull != null)
+                        {
+                            MainGrid[columnId, i].Value = SourceAttribute.GetFullSauce(f, bull);
+                        }
+                    }
+
+                    MainGrid.Columns[columnId].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
                 }
 
                 columnId++;

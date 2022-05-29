@@ -9,15 +9,15 @@ namespace CourseProject.Content.Models
         [Name("ID Связи")]
         public int Id { get; set; }
 
-        [Name("ID Преподавателя")]
+        [Name("Преподаватель")]
         [Source(typeof(Teacher), "FullName")]
         public int TeacherId { get; set; }
 
-        [Name("ID Группы")]
+        [Name("Группа")]
         [Source(typeof(Group), "Name")]
         public int GroupId { get; set; }
 
-        [Name("ID Предмета")]
+        [Name("Предмет")]
         [Source(typeof(Subject), "Name")]
         public int SubjectId { get; set; }
 

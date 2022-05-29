@@ -53,6 +53,8 @@ namespace CourseProject
         public Type lastKnownType;
         public int currentId;
 
+        public Dictionary<Type, PropertyInfo[]> Infos = new Dictionary<Type, PropertyInfo[]>();
+
         public MainForm()
         {
             instance = this;
@@ -77,6 +79,11 @@ namespace CourseProject
             Storages.Add(typeof(Subject), Subject);
             Storages.Add(typeof(Schedule), Schedule);
             Storages.Add(typeof(Group), Group);
+
+            foreach (var t in Storages.Keys)
+            {
+                Infos.Add(t, t.GetProperties());
+            }
 
             FuckTabControlMyHomiesHateTabControl();
 
@@ -156,7 +163,7 @@ namespace CourseProject
             {
                 var data = (T)Activator.CreateInstance(storage.expectedType);
 
-                PropertyInfo[] infos = storage.expectedType.GetProperties();
+                PropertyInfo[] infos = Infos[storage.expectedType];
 
                 int num = 0;
                 foreach (PropertyInfo f in infos.Where(x => x.GetCustomAttribute(typeof(NameAttribute)) != null))
@@ -230,9 +237,9 @@ namespace CourseProject
                     int rowIndex = MainGrid.SelectedCells[i].RowIndex;
                     int id = (int)MainGrid[0, rowIndex].Value;
 
-                    PropertyInfo[] info = Storages[CurrentStorage].expectedType.GetProperties();
+                    PropertyInfo[] infos = Infos[Storages[CurrentStorage].expectedType];
 
-                    var get = Storages[CurrentStorage].Find(x => (int)info[0].GetValue(x) == id);
+                    var get = Storages[CurrentStorage].Find(x => (int)infos[0].GetValue(x) == id);
                     get.ToBeRemoved = true;
                     MainGrid.Rows.RemoveAt(MainGrid.SelectedCells[i].RowIndex);
                     MainGrid.Update();
