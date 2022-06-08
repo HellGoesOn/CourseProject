@@ -58,7 +58,7 @@ namespace CourseProject
             this.MainGrid.Name = "MainGrid";
             this.MainGrid.ReadOnly = true;
             this.MainGrid.RowTemplate.Height = 25;
-            this.MainGrid.Size = new System.Drawing.Size(546, 189);
+            this.MainGrid.Size = new System.Drawing.Size(702, 234);
             this.MainGrid.TabIndex = 0;
             this.MainGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellClick);
             this.MainGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -72,9 +72,9 @@ namespace CourseProject
             // 
             // commitChanges
             // 
-            this.commitChanges.Location = new System.Drawing.Point(564, 282);
+            this.commitChanges.Location = new System.Drawing.Point(720, 282);
             this.commitChanges.Name = "commitChanges";
-            this.commitChanges.Size = new System.Drawing.Size(224, 30);
+            this.commitChanges.Size = new System.Drawing.Size(202, 29);
             this.commitChanges.TabIndex = 3;
             this.commitChanges.Text = "Зафиксировать изменения";
             this.commitChanges.UseVisualStyleBackColor = true;
@@ -82,9 +82,9 @@ namespace CourseProject
             // 
             // updateButton
             // 
-            this.updateButton.Location = new System.Drawing.Point(564, 318);
+            this.updateButton.Location = new System.Drawing.Point(720, 318);
             this.updateButton.Name = "updateButton";
-            this.updateButton.Size = new System.Drawing.Size(224, 23);
+            this.updateButton.Size = new System.Drawing.Size(202, 22);
             this.updateButton.TabIndex = 4;
             this.updateButton.Text = "Внести изменения";
             this.updateButton.UseVisualStyleBackColor = true;
@@ -97,7 +97,7 @@ namespace CourseProject
             this.tableControl.Location = new System.Drawing.Point(12, 12);
             this.tableControl.Name = "tableControl";
             this.tableControl.SelectedIndex = 0;
-            this.tableControl.Size = new System.Drawing.Size(546, 30);
+            this.tableControl.Size = new System.Drawing.Size(702, 30);
             this.tableControl.TabIndex = 5;
             // 
             // tabPage1
@@ -105,7 +105,7 @@ namespace CourseProject
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(538, 2);
+            this.tabPage1.Size = new System.Drawing.Size(694, 2);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -115,16 +115,16 @@ namespace CourseProject
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(538, 2);
+            this.tabPage2.Size = new System.Drawing.Size(694, 2);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // deleteSelected
             // 
-            this.deleteSelected.Location = new System.Drawing.Point(564, 378);
+            this.deleteSelected.Location = new System.Drawing.Point(720, 378);
             this.deleteSelected.Name = "deleteSelected";
-            this.deleteSelected.Size = new System.Drawing.Size(224, 23);
+            this.deleteSelected.Size = new System.Drawing.Size(202, 22);
             this.deleteSelected.TabIndex = 6;
             this.deleteSelected.Text = "Удалить запись";
             this.deleteSelected.UseVisualStyleBackColor = true;
@@ -132,33 +132,35 @@ namespace CourseProject
             // 
             // contextPanel
             // 
-            this.contextPanel.Location = new System.Drawing.Point(12, 237);
+            this.contextPanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.contextPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.contextPanel.Location = new System.Drawing.Point(12, 282);
             this.contextPanel.Name = "contextPanel";
-            this.contextPanel.Size = new System.Drawing.Size(546, 201);
+            this.contextPanel.Size = new System.Drawing.Size(702, 201);
             this.contextPanel.TabIndex = 7;
             // 
             // addEntry
             // 
-            this.addEntry.Location = new System.Drawing.Point(564, 347);
+            this.addEntry.Location = new System.Drawing.Point(720, 347);
             this.addEntry.Name = "addEntry";
-            this.addEntry.Size = new System.Drawing.Size(224, 25);
+            this.addEntry.Size = new System.Drawing.Size(202, 24);
             this.addEntry.TabIndex = 8;
             this.addEntry.Text = "Добавить запись";
             this.addEntry.UseVisualStyleBackColor = true;
             this.addEntry.Click += new System.EventHandler(this.addEntry_Click);
             // 
-            // textBox1
+            // filterBox
             // 
-            this.filterBox.Location = new System.Drawing.Point(564, 36);
-            this.filterBox.Name = "textBox1";
-            this.filterBox.Size = new System.Drawing.Size(224, 23);
+            this.filterBox.Location = new System.Drawing.Point(720, 36);
+            this.filterBox.Name = "filterBox";
+            this.filterBox.Size = new System.Drawing.Size(202, 23);
             this.filterBox.TabIndex = 9;
             this.filterBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(564, 18);
+            this.label1.Location = new System.Drawing.Point(720, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 15);
             this.label1.TabIndex = 10;
@@ -168,7 +170,8 @@ namespace CourseProject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(793, 450);
+            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.ClientSize = new System.Drawing.Size(929, 495);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.filterBox);
             this.Controls.Add(this.addEntry);

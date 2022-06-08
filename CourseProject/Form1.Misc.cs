@@ -24,8 +24,10 @@ namespace CourseProject
                 if (attr == null)
                     continue;
 
-                var txt = new Label();
-                txt.Text = attr.Name;
+                var txt = new Label
+                {
+                    Text = attr.Name
+                };
                 var measured = TextRenderer.MeasureText(txt.Text, txt.Font).Width;
                 txt.Width = measured;
                 txt.Top = topOffset;
@@ -58,9 +60,11 @@ namespace CourseProject
                 // textBox if we do not expect an outside source
                 if (attr == null && field.PropertyType != typeof(DateTime))
                 {
-                    var txt = new TextBox();
-                    txt.Width = 380;
-                    txt.Name = "txt" + foo;
+                    var txt = new TextBox
+                    {
+                        Width = 380,
+                        Name = "txt" + foo
+                    };
                     if (CurrentModel != null)
                         txt.Text = field.GetValue(CurrentModel).ToString();
 
@@ -72,13 +76,20 @@ namespace CourseProject
                         txt.Visible = false;
                     }
 
+                    if(field.Has<IgnoreUpdateAttribute>())
+                    {
+                        txt.ReadOnly = true;
+                    }
+
                     topOffset += txt.Height + 2;
                 }
                 else if(field.PropertyType == typeof(DateTime))
                 {
-                    var txt = new DateTimePicker();
-                    txt.Top = topOffset;
-                    txt.Left = longest;
+                    var txt = new DateTimePicker
+                    {
+                        Top = topOffset,
+                        Left = longest
+                    };
 
                     if (CurrentModel != null)
                     {
@@ -94,9 +105,11 @@ namespace CourseProject
                 }
                 else
                 {
-                    var txt = new ComboBox();
-                    txt.Top = topOffset;
-                    txt.Left = longest;
+                    var txt = new ComboBox
+                    {
+                        Top = topOffset,
+                        Left = longest
+                    };
 
                     var pinf = attr[0].SourceType.GetProperties().Where(x => x.Name == attr[0].FieldName).ToList().First();
 
@@ -110,8 +123,6 @@ namespace CourseProject
                         var bruv = Storages[attr[0].SourceType].Find(x => x.id == (int)field.GetValue(CurrentModel));
                         txt.SelectedItem = txt.Items.Cast<ComboBoxItem>().FirstOrDefault(x => (int)x.Value == bruv.id);
                     }
-
-
 
                     txt.Width = 380;
 
@@ -232,7 +243,7 @@ namespace CourseProject
                     var value = f.GetValue(omegaLUL[i]);
 
                     if (src == null)
-                        MainGrid[columnId, i].Value = value == null ? "Bruh" : value;
+                        MainGrid[columnId, i].Value = value ?? "Bruh";
                     else if (value != null)
                     {
                         var bull = Storages[src.SourceType].Find(x => x.id == (int)value);
@@ -243,7 +254,8 @@ namespace CourseProject
                         }
                     }
 
-                    MainGrid.Columns[columnId].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+                    MainGrid.Columns[columnId].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    MainGrid.Columns[columnId].Resizable = DataGridViewTriState.True;
                 }
 
                 columnId++;

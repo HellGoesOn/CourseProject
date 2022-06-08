@@ -12,10 +12,15 @@ namespace CourseProject.Content.Models
         [Name("ФИО Преподавателя")]
         public string FullName { get; set; }
 
-        public Teacher(int id, string fullName)
+        [Name("Рабочих часов")]
+        [IgnoreUpdate]
+        public int TotalWorkHours { get; set; }
+
+        public Teacher(int id, string fullName, int totalWorkHours)
         {
             Id = id;
             FullName = fullName;
+            TotalWorkHours = totalWorkHours;
         }
 
         public Teacher() { }

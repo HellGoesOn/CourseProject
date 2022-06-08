@@ -32,7 +32,7 @@ namespace CourseProject.Core
         {
             data.Add(newData);
 
-            return new Result<T>(data[data.Count - 1]);
+            return new Result<T>(data[^1]);
         }
 
         public Result<T> Replace(int id, T d)
@@ -126,7 +126,9 @@ namespace CourseProject.Core
 
                     int dumbCounter = 0;
 
-                    foreach(var info in infos)
+                    var iHopeThisWorks = infos.Where(x => x.GetCustomAttribute<IgnoreUpdateAttribute>() == null).ToArray();
+
+                    foreach (var info in iHopeThisWorks)
                     {
                         if (info.Name == "Id")
                             continue;
@@ -138,11 +140,11 @@ namespace CourseProject.Core
                         else
                             query.AppendLine($@" {info.Name} = {Convert.ChangeType(val, info.PropertyType)}");
 
-                        query.AppendLine($"{(dumbCounter < infos.Length- magicNumber ? "," : "")}");
+                        query.AppendLine($"{(dumbCounter < iHopeThisWorks.Length- magicNumber ? "," : "")}");
 
                         dumbCounter++;
                     }
-
+                    
                     query.AppendLine($@" where {infos[0].Name} = {infos[0].GetValue(item)};");
                 }
                 else if(item.IsNew)

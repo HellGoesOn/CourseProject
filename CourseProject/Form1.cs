@@ -44,6 +44,7 @@ namespace CourseProject
         public DataStorage<Model> Subject;
         public DataStorage<Model> Group;
         public DataStorage<Model> Schedule;
+        public DataStorage<Model> ClassType;
 
         public Type CurrentStorage;
 
@@ -73,12 +74,15 @@ namespace CourseProject
             Subject = new DataStorage<Model>(Connection, typeof(Subject));
             Schedule = new DataStorage<Model>(Connection, typeof(Schedule));
             Group = new DataStorage<Model>(Connection, typeof(Group));
+            ClassType = new DataStorage<Model>(Connection, typeof(ClassType));
+
 
             Storages.Add(typeof(TeacherSubject), TeacherSubject);
             Storages.Add(typeof(Teacher), Teacher);
             Storages.Add(typeof(Subject), Subject);
             Storages.Add(typeof(Schedule), Schedule);
             Storages.Add(typeof(Group), Group);
+            Storages.Add(typeof(ClassType), ClassType);
 
             foreach (var t in Storages.Keys)
             {
@@ -117,8 +121,10 @@ namespace CourseProject
 
                 if (attr != null)
                 {
-                    TabPage pg = new TabPage(attr.Name);
-                    pg.Name = kvp.Key.Name;
+                    TabPage pg = new TabPage(attr.Name)
+                    {
+                        Name = kvp.Key.Name
+                    };
                     tableControl.TabPages.Add(pg);
                 }
             }
@@ -268,11 +274,15 @@ namespace CourseProject
 
         private void MainGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            object val = MainGrid[0, MainGrid.SelectedCells[0].RowIndex].Value;
-            int id = val != null ? (int)val : -999;
+            int id = -999;
+            if (MainGrid.RowCount > 0)
+            {
+                object val = MainGrid[0, MainGrid.SelectedCells[0].RowIndex].Value;
+                currentId = MainGrid.SelectedCells[0].RowIndex;
+                id = val != null ? (int)val : -999;
+            }
 
             CurrentModel = Storages[CurrentStorage].Find(x => x.id == id);
-            currentId = MainGrid.SelectedCells[0].RowIndex;
 
             MakeContextPanel();
 

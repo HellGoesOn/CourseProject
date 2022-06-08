@@ -3,7 +3,7 @@ using CourseProject.Core.Attributes;
 
 namespace CourseProject.Content.Models
 {
-    [Name("Преподаватель-Предмет")]
+    [Name("Пары")]
     public class TeacherSubject : Model
     {
         [Name("ID Связи")]
