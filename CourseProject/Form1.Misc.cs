@@ -34,6 +34,11 @@ namespace CourseProject
                 topOffset += txt.Height + 2;
                 if (measured > longest)
                     longest = measured;
+
+                if (field.Name == "Id")
+                {
+                    txt.Visible = false;
+                }
             }
 
             topOffset = 0;
@@ -62,6 +67,10 @@ namespace CourseProject
                     txt.Left = longest;
                     txt.Top = topOffset;
                     contextPanel.Controls.Add(txt);
+                    if (field.Name == "Id")
+                    {
+                        txt.Visible = false;
+                    }
 
                     topOffset += txt.Height + 2;
                 }
@@ -173,7 +182,7 @@ namespace CourseProject
                 fuck--;
             }
 
-            int id = parameters[0] == null ? -1 : (int)Convert.ChangeType(parameters[0], typeof(int));
+            parameters[0] = string.IsNullOrWhiteSpace(parameters[0].ToString()) ? -1 : (int)Convert.ChangeType(parameters[0], typeof(int));
 
             if (type == ModelStyle.Update)
                 return Model.UpdateModel(lastKnownType, parameters);

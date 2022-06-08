@@ -40,6 +40,8 @@ namespace CourseProject
             this.deleteSelected = new System.Windows.Forms.Button();
             this.contextPanel = new System.Windows.Forms.Panel();
             this.addEntry = new System.Windows.Forms.Button();
+            this.filterBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).BeginInit();
             this.tableControl.SuspendLayout();
             this.SuspendLayout();
@@ -145,11 +147,30 @@ namespace CourseProject
             this.addEntry.UseVisualStyleBackColor = true;
             this.addEntry.Click += new System.EventHandler(this.addEntry_Click);
             // 
+            // textBox1
+            // 
+            this.filterBox.Location = new System.Drawing.Point(564, 36);
+            this.filterBox.Name = "textBox1";
+            this.filterBox.Size = new System.Drawing.Size(224, 23);
+            this.filterBox.TabIndex = 9;
+            this.filterBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(564, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 15);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Фильтрация";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(793, 450);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.filterBox);
             this.Controls.Add(this.addEntry);
             this.Controls.Add(this.contextPanel);
             this.Controls.Add(this.deleteSelected);
@@ -165,6 +186,7 @@ namespace CourseProject
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).EndInit();
             this.tableControl.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -185,5 +207,7 @@ namespace CourseProject
         private System.Windows.Forms.Button deleteSelected;
         private Panel contextPanel;
         private Button addEntry;
+        private TextBox filterBox;
+        private Label label1;
     }
 }

@@ -297,5 +297,26 @@ namespace CourseProject
                 RefreshDisplay();
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+             foreach(DataGridViewRow row in MainGrid.Rows)
+            {
+                row.Visible = true;
+
+                if (row.Cells[0].Value == null)
+                    continue;
+
+                var model = Storages[CurrentStorage].GetAll().FirstOrDefault(x => x.id == (int)row.Cells[0].Value);
+
+                if (model == null)
+                    continue;
+
+                string text = model.ToString().ToLower();
+
+                if (!text.Contains(filterBox.Text.ToLower()))
+                    row.Visible = false;
+            }
+        }
     }
 }

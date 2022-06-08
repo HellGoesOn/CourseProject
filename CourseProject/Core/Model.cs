@@ -120,6 +120,33 @@ namespace CourseProject.Core
             return model;
         }
 
+        public override string ToString()
+        {
+            string s = "";
+            Type t = GetType();
+
+            PropertyInfo[] props = t.GetProperties().Where(x => x.GetCustomAttribute<NameAttribute>() != null && x.Name != "Id").ToArray();
+
+            foreach(PropertyInfo prop in props)
+            {
+                SourceAttribute attr = prop.GetCustomAttribute<SourceAttribute>();
+
+                if(attr != null)
+                {
+                    var st = MainForm.instance.Storages[attr.SourceType];
+
+                    var md = st.Find(x => x.id == (int)prop.GetValue(this));
+
+                    if(md != null)
+                        s += attr.SourceType.GetProperty(attr.FieldName).GetValue(md);
+                }
+                else
+                    s += " " + prop.GetValue(this).ToString();
+            }
+
+            return s;
+        }
+
         public static object Default(Type type)
         {
             if (type.IsValueType)
