@@ -42,8 +42,10 @@ namespace CourseProject
             this.addEntry = new System.Windows.Forms.Button();
             this.filterBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).BeginInit();
             this.tableControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // MainGrid
@@ -166,12 +168,22 @@ namespace CourseProject
             this.label1.TabIndex = 10;
             this.label1.Text = "Фильтрация";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::CourseProject.Properties.Resources.V6;
+            this.pictureBox1.Location = new System.Drawing.Point(759, 158);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(130, 118);
+            this.pictureBox1.TabIndex = 11;
+            this.pictureBox1.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(929, 495);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.filterBox);
             this.Controls.Add(this.addEntry);
@@ -188,6 +200,7 @@ namespace CourseProject
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).EndInit();
             this.tableControl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,5 +225,6 @@ namespace CourseProject
         private Button addEntry;
         private TextBox filterBox;
         private Label label1;
+        private PictureBox pictureBox1;
     }
 }

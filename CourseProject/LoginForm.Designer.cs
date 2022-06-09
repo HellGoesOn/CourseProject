@@ -35,6 +35,10 @@
             this.pswd = new System.Windows.Forms.Label();
             this.usr = new System.Windows.Forms.Label();
             this.showPswd = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lgBox
@@ -101,11 +105,44 @@
             this.showPswd.UseVisualStyleBackColor = true;
             this.showPswd.CheckedChanged += new System.EventHandler(this.showPswd_CheckedChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(139, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(191, 27);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Добро пожаловать!";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(74, 85);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(310, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Пожалуйста, авторизуйтесь чтобы продолжить работу";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::CourseProject.Properties.Resources.V6;
+            this.pictureBox1.Location = new System.Drawing.Point(325, 217);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(120, 106);
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(445, 322);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.showPswd);
             this.Controls.Add(this.usr);
             this.Controls.Add(this.pswd);
@@ -117,6 +154,7 @@
             this.Name = "LoginForm";
             this.Text = "Добро пожаловать";
             this.Load += new System.EventHandler(this.LoginForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,5 +169,8 @@
         private System.Windows.Forms.Label pswd;
         private System.Windows.Forms.Label usr;
         private System.Windows.Forms.CheckBox showPswd;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

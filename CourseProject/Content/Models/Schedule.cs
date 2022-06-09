@@ -4,7 +4,7 @@ using System;
 
 namespace CourseProject.Content.Models
 {
-    [Name("Пары")]
+    [Name("Расписание")]
     public class Schedule : Model
     {
         [Name("ID пары")]

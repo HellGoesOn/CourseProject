@@ -34,11 +34,6 @@ namespace CourseProject
 
         public static MainForm instance { get; private set; }
 
-        /*
-        public DataStorage<TeacherSubject> TeacherSubject;
-        public DataStorage<Teacher> Teacher;
-        */
-
         public DataStorage<Model> TeacherSubject;
         public DataStorage<Model> Teacher;
         public DataStorage<Model> Subject;
@@ -65,8 +60,6 @@ namespace CourseProject
 
             Storages = new Dictionary<Type, DataStorage<Model>>();
 
-            // TO-DO: Пернуть запросом в БД и получить инфу оттуда
-
             Connection = new SqlConnection(ConnectionString + UserInfo);
 
             TeacherSubject = new DataStorage<Model>(Connection, typeof(TeacherSubject));
@@ -89,7 +82,7 @@ namespace CourseProject
                 Infos.Add(t, t.GetProperties());
             }
 
-            FuckTabControlMyHomiesHateTabControl();
+            ScrewTabControlMyHomiesHateTabControl();
 
             PullDatas();
 
@@ -111,7 +104,7 @@ namespace CourseProject
                 storage.Clear();
         }
 
-        private void FuckTabControlMyHomiesHateTabControl()
+        private void ScrewTabControlMyHomiesHateTabControl()
         {
             tableControl.TabPages.Clear();
 
@@ -201,8 +194,6 @@ namespace CourseProject
 
         private void commitChanges_Click(object sender, System.EventArgs e)
         {
-            // to-do: пернуть запросов в БД, вкинув все изменения сделанные в приложении
-
             foreach (var kvp in Storages)
             {
                 kvp.Value.Fixate();
@@ -214,7 +205,6 @@ namespace CourseProject
             ShowDataFor(Storages[CurrentStorage]);
         }
 
-        // мессиво из кала
         private void MainGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
         }
